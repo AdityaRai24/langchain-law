@@ -5,39 +5,44 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { NextRequest, NextResponse } from "next/server";
 import { updateVectorDB } from "@/utils";
 
-export const runtime = 'nodejs';
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { indexname, namespace } = body;
     console.log("Processing request for:", indexname, namespace);
-    
+
     const stream = new TransformStream();
     const writer = stream.writable.getWriter();
 
     // Create the response with the stream
     const response = new Response(stream.readable, {
       headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
-      }
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
     });
 
     // Handle the upload in the background
     handleUpload(indexname, namespace, writer).catch(async (error) => {
-      console.error('Upload error:', error);
-      await writer.write(new TextEncoder().encode(
-        `data: ${JSON.stringify({ error: error.message })}\n\n`
-      ));
+      console.error("Upload error:", error);
+      await writer.write(
+        new TextEncoder().encode(
+          `data: ${JSON.stringify({ error: error.message })}\n\n`
+        )
+      );
       await writer.close();
     });
 
     return response;
   } catch (error) {
-    console.error('Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error("Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -51,7 +56,7 @@ async function handleUpload(
       ".pdf": (path: string) => new PDFLoader(path, { splitPages: false }),
       ".txt": (path: string) => new TextLoader(path),
     });
-    
+
     const docs = await loader.load();
     console.log(`Loaded ${docs.length} documents`);
 
@@ -65,23 +70,25 @@ async function handleUpload(
       chunksUpserted: number,
       isComplete: boolean
     ) => {
-      const data = `data: ${JSON.stringify({
+      const data = `${JSON.stringify({
         filename,
         totalChunks,
         chunksUpserted,
         isComplete,
       })}\n\n`;
-      
+
+      console.log(`${filename}-${totalChunks}-${chunksUpserted}-${isComplete}`);
       await writer.write(new TextEncoder().encode(data));
-      
+
       if (isComplete) {
         await writer.close();
       }
     };
 
     await updateVectorDB(client, indexname, namespace, docs, sendProgress);
+    console.log();
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error("Upload error:", error);
     throw error;
   }
 }

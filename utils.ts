@@ -75,8 +75,18 @@ async function processDocument(client: Pinecone, indexname: string, namespace: s
 }
 
 function getFilename(filename: string): string {
-  const docname = filename.substring(filename.lastIndexOf("/") + 1);
-  return docname.substring(0, docname.lastIndexOf(".")) || docname;
+  const normalizedFilename = filename.replace(/\\/g, '/');
+  
+  const lastSlashIndex = normalizedFilename.lastIndexOf("/");
+  const lastDotIndex = normalizedFilename.lastIndexOf(".");
+  
+  const docname = lastSlashIndex !== -1 
+    ? normalizedFilename.substring(lastSlashIndex + 1) 
+    : normalizedFilename;
+
+  return lastDotIndex !== -1 
+    ? docname.substring(0, lastDotIndex) 
+    : docname;
 }
 
 
@@ -115,8 +125,6 @@ async function processOneBatch(client: Pinecone, indexname: string, namespace: s
     );
   }
   vectorBatch = [];
-
-
 
 }
 
