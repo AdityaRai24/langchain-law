@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Handle the upload in the background
     handleUpload(indexname, namespace, writer).catch(async (error) => {
       console.error("Upload error:", error);
       await writer.write(
