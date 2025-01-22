@@ -42,11 +42,19 @@ export async function POST(req: Request, res: Response) {
     query
   );
 
-  const finalPrompt = `Here is a summary of a legal document, and a user query. Some general legal precedents and references are also provided that may or may not be relevant for the document.
+  const finalPrompt = `
+  
+If the ${userQuestion} does not match anything with law say that it does not relate to any law and you cannot answer it or like that. Do not proceed to answer that question and stop right there
+
+
+  Here is a summary of a legal document, and a user query. Some general legal precedents and references are also provided that may or may not be relevant for the document.
 Go through the legal document and answer the user query.
 Ensure the response is factually accurate, and demonstrates a thorough understanding of the query topic and the legal document.
 Before answering you may enrich your knowledge by going through the provided legal references. 
 The legal references are generic insights and not part of the specific document. Do not include any legal reference if it is not relevant for this specific case.
+If legal document summary is not provided answer the question strictly refering to the generic legal references. Answer the questions in simple words such that a person who is not aware about the laws and legal terms can understand it.
+If legal document summary is not provided say that since you have not uploaded any document i am answering based on the generic legal references present in your knowledge base. Do not talk anything about references.
+Do not mention anything about references like your knowledge base.
 
 \n\n**Legal Document Summary:** \n${reportData}. 
 \n**end of legal document** 

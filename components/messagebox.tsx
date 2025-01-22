@@ -1,80 +1,53 @@
-// import {
-//   ChevronLeft,
-//   ChevronRight,
-//   Copy,
-//   CreditCard,
-//   MoreVertical,
-//   Truck,
-// } from "lucide-react";
+import React from 'react';
+import { Message } from 'ai';
+import { Bot, User } from 'lucide-react';
+import { Card, CardContent, CardFooter } from './ui/card';
+import Markdown from './markdown';
+import { cn } from '@/lib/utils';
 
-// import { Button } from "@/components/ui/button";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { Separator } from "@/components/ui/separator";
-// import Markdown from "./markdown";
-
-// type Props = {
-//   role?: string;
-//   content?: string;
-// };
-// const MessageBox = ({ role, content }: Props) => {
-//   return (
-//     <Card className="overflow-hidden">
-//       <CardContent className="p-6 text-sm">
-//         <Markdown text={content as string} />
-//       </CardContent>
-//       {role !== "user" && (
-//         <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-//           <div className="text-xs text-muted-foreground">
-//             <span>Disclaimer:</span> The medical advice and recommendations provided by this
-//             application are for informational purposes only and should not
-//             replace professional medical diagnosis, treatment, or advice.
-//           </div>
-//         </CardFooter>
-//       )}
-//     </Card>
-//   );
-// };
-// export default MessageBox;
-
-import React from 'react'
-import { Card, CardContent, CardFooter } from './ui/card'
-import Markdown from './markdown'
-
-type Props = {
-  role: string,
-  content: string
+interface MessageBoxProps {
+  role: string;
+  content: string;
+  isStreaming?: boolean;
 }
 
-const MessageBox = ({ role, content }: Props) => {
+const MessageBox = ({ role, content, isStreaming }: MessageBoxProps) => {
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-6 text-sm">
-        {/* {content} */}
-        <Markdown text={content} />
-      </CardContent>
-      {role !== "user" && (
-        <CardFooter className="border-t bg-muted/50 px-6 py-3 text-xs text-muted-foreground">
-          Disclaimer: The law advice and recommendations provided by this
-          application are for informational purposes only and should not
-          replace professionals.
-        </CardFooter>
-      )}
-    </Card>
-  )
-}
+    <div className={cn(
+      "animate-in fade-in-0 slide-in-from-bottom-3",
+      isStreaming && "animate-pulse-subtle"
+    )}>
+      <Card className="overflow-hidden">
+        <CardContent className="flex gap-3 p-6">
+          <div className={cn(
+            "shrink-0 size-8 rounded-md flex items-center justify-center",
+            role === "assistant" ? "bg-primary/10" : "bg-muted"
+          )}>
+            {role === "assistant" ? <Bot size={18} /> : <User size={18} />}
+          </div>
+          <div className={cn(
+            "text-sm min-h-[20px]",
+            isStreaming && "streaming-content"
+          )}>
+            <Markdown 
+              text={content} 
+              className={cn(
+                "prose prose-sm break-words prose-p:leading-relaxed prose-pre:p-0",
+                isStreaming && "stream-text"
+              )}
+            />
+          </div>
+        </CardContent>
+        {role === "assistant" && (
+          <CardFooter className="border-t bg-muted/50 px-6 py-3 text-xs text-muted-foreground">
+            Disclaimer: The law advice and recommendations provided by this
+            application are for informational purposes only and should not
+            replace professionals.
+          </CardFooter>
+        )}
+      </Card>
+    </div>
+  );
+};
 
-export default MessageBox
+export default MessageBox;

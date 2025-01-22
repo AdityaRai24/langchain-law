@@ -70,3 +70,50 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Add these styles to your global CSS file */
+
+/* Table container for horizontal scrolling */
+.table-container {
+  @apply overflow-x-auto my-2;
+}
+
+/* Ensure code blocks don't overflow */
+.markdown-content pre {
+  @apply overflow-x-auto;
+}
+
+/* Streaming text animation for new content */
+.markdown-content.stream-text > *:last-child {
+  @apply animate-in fade-in-0;
+}
+
+/* Custom scrollbar for code blocks and tables */
+.markdown-content pre::-webkit-scrollbar,
+.table-container::-webkit-scrollbar {
+  @apply h-2 w-2;
+}
+
+.markdown-content pre::-webkit-scrollbar-track,
+.table-container::-webkit-scrollbar-track {
+  @apply bg-muted/50 rounded-full;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb,
+.table-container::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/30;
+}
+
+/* Syntax highlighting basic colors */
+.language-javascript,
+.language-typescript,
+.language-python,
+.language-bash,
+.language-json {
+  @apply text-sm font-mono;
+}
+
+/* Ensure inline code doesn't break layout */
+:not(pre) > code {
+  @apply whitespace-normal break-words;
+}
