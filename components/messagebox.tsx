@@ -14,11 +14,11 @@ interface MessageBoxProps {
 const MessageBox = ({ role, content, isStreaming }: MessageBoxProps) => {
   return (
     <div className={cn(
-      "animate-in fade-in-0 slide-in-from-bottom-3",
+      "animate-in fade-in-0 slide-in-from-bottom-3 ",
       isStreaming && "animate-pulse-subtle"
     )}>
       <Card className="overflow-hidden">
-        <CardContent className="flex gap-3 p-6">
+        <CardContent className="flex gap-3 bg-muted p-6">
           <div className={cn(
             "shrink-0 size-8 rounded-md flex items-center justify-center",
             role === "assistant" ? "bg-primary/10" : "bg-muted"

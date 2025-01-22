@@ -17,24 +17,6 @@ const Home = () => {
 
   return (
     <div className="flex h-screen flex-col">
-      <header className="flex h-[57px] items-center gap-1 border-b bg-background px-4">
-        <h1 className="text-xl font-semibold text-[#D90013]">
-          <span className="flex flex-row">Mr.AlmostMD</span>
-        </h1>
-        <div className="flex w-full flex-row justify-end gap-2">
-          <Drawer>
-            <DrawerTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Settings />
-                <span className="sr-only">Settings</span>
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent className="max-h-[80vh]">
-              <ReportComponent onReportConfirmation={onReportConfirmation} />
-            </DrawerContent>
-          </Drawer>
-        </div>
-      </header>
       
       <main className="flex flex-1 overflow-hidden">
         {/* Fixed Report Section */}
