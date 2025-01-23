@@ -68,9 +68,10 @@ const ReportComponent = ({ onReportConfirmation }: Props) => {
   function compressImage(file: File, callback: (compressedFile: File) => void) {
     const reader = new FileReader();
 
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
+      reader.onload = (e) => {
+        const img = new Image();
+
+        img.onload = () => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 

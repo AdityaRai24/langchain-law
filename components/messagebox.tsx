@@ -1,5 +1,4 @@
 import React from 'react';
-import { Message } from 'ai';
 import { Bot, User } from 'lucide-react';
 import { Card, CardContent, CardFooter } from './ui/card';
 import Markdown from './markdown';
@@ -32,7 +31,7 @@ const MessageBox = ({ role, content, isStreaming }: MessageBoxProps) => {
             <Markdown 
               text={content} 
               className={cn(
-                "prose prose-sm break-words prose-p:leading-relaxed prose-pre:p-0",
+                "prose prose-sm break-words font-light prose-p:leading-relaxed prose-pre:p-0",
                 isStreaming && "stream-text"
               )}
             />

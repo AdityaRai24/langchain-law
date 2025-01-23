@@ -8,16 +8,11 @@ const prompt = `Attached is an image of a legal document.
 Go over the document and identify key legal points, important clauses, and any notable provisions or conditions. Then summarize in 100 words. You may increase the word limit if the document has multiple pages. Do not output any personally identifiable information or confidential details. Make sure to include specific clauses, referenced laws/statutes, and key details from the document, including document title.
 ## Summary: `;
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { base64 } = await req.json();
   const filePart = fileToGenerativePart(base64);
-
-  console.log(filePart);
   const generatedContent = await model.generateContent([prompt, filePart]);
-
-  console.log(generatedContent);
-  const textResponse =
-    generatedContent.response.candidates![0].content.parts[0].text;
+  const textResponse = generatedContent.response.candidates![0].content.parts[0].text;
   return new Response(textResponse, { status: 200 });
 }
 

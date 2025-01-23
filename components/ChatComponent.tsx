@@ -1,21 +1,15 @@
 import React from "react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { CornerDownLeft, Loader2, TextSearch } from "lucide-react";
+import { CornerDownLeft, Loader2 } from "lucide-react";
 import { Badge } from "./ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
 import { useChat } from "ai/react";
-import Markdown from "./markdown";
 import Messages from "./messages";
 
 type Props = {
   reportData?: string;
 };
+
 
 const ChatComponent = ({ reportData }: Props) => {
   const { messages, input, handleInputChange, handleSubmit, isLoading, data } =
@@ -23,6 +17,8 @@ const ChatComponent = ({ reportData }: Props) => {
       api: "api/medichatgemini",
     });
     
+    console.log({reportData,messages})
+
     return (
     <div className="h-full bg-muted/50 relative flex flex-col overflow-y-auto min-h-[50vh] rounded-xl p-4 gap-4">
       <Badge
