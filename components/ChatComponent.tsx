@@ -17,8 +17,6 @@ const ChatComponent = ({ reportData }: Props) => {
       api: "api/medichatgemini",
     });
     
-    console.log({reportData,messages})
-
     return (
     <div className="h-full bg-muted/50 relative flex flex-col overflow-y-auto min-h-[50vh] rounded-xl p-4 gap-4">
       <Badge

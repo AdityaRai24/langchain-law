@@ -135,7 +135,7 @@ const ReportComponent = ({ onReportConfirmation }: Props) => {
   };
 
   return (
-    <div className="grid w-full bg-muted/50 rounded-lg  h-[95vh] items-start gap-6 overflow-auto p-5">
+    <div className="grid w-full bg-muted/50 rounded-lg  h-[95vh] items-start gap-6 p-5">
       <div className="flex flex-col h-full justify-between gap-6 rounded-lg">
         <div className="flex items-center justify-start gap-3">
           <Scale className="text-slate-500" size={36} />{" "}

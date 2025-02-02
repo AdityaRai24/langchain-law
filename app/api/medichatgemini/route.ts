@@ -1,12 +1,9 @@
 import { queryPineconeVectorStore } from "@/utils";
-// import { Message, OpenAIStream, StreamData, StreamingTextResponse } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { Pinecone } from "@pinecone-database/pinecone";
 import {  Message, StreamData, streamText } from "ai";
 
-// Allow streaming responses up to 30 seconds
 export const maxDuration = 60;
-// export const runtime = 'edge';
 
 const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY ?? "",
@@ -25,7 +22,6 @@ const model = google("models/gemini-1.5-pro-latest", {
 
 export async function POST(req: Request) {
   const reqBody = await req.json();
-  console.log({reqBody});
 
   const messages: Message[] = reqBody.messages;
   const userQuestion = `${messages[messages.length - 1].content}`;
